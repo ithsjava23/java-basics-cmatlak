@@ -40,6 +40,7 @@ public class App {
         return text;
     }
 
+
     public static void inputMethod() {
         for (int hour = 0; hour < 23; hour++) {
             System.out.print("Ange elpriset per timme (" + String.format("%02d", hour) + "-" + String.format("%02d", hour + 1 ) + ": ");
