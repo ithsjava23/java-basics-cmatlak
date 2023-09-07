@@ -37,7 +37,7 @@ public class App {
                 4. Bästa Laddningstid (4h)
                 e. Avsluta     
                 """;
-        return text;
+        return text ;
     }
 
 
