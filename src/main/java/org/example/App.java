@@ -43,7 +43,7 @@ public class App {
 
     public static void inputMethod() {
         for (int hour = 0; hour < 23; hour++) {
-            System.out.print("Ange elpriset per timme (" + String.format("%02d", hour) + "-" + String.format("%02d", hour + 1 ) + ": ");
+            System.out.print("Ange elpriset per timme "+ (  String.format("%02d", hour) + "-" + String.format("%02d", hour + 1 ) + ": "));
 
             try {
                 int price = Integer.parseInt(scan.next());
@@ -83,8 +83,8 @@ public class App {
         }
         double average = (double) sum / prices.length;
 
-        System.out.print (" Lägsta pris: " + min +  " vid " + minHour + "\n" );
-        System.out.print (" Högsta pris:  " + max + " vid " + maxHour + "\n");
+        System.out.print (" Lägsta pris: " + (  String.format("%02d", minHour) + "-"+ (  String.format("%02d", minHour + 1)+ ", " + min + " Öre/kWh\n" )));
+        System.out.print (" Högsta pris:  " + maxHour + " , " + max + "\n");
         System.out.print (" Medelpris:  " + average + "\n");
     }
 
