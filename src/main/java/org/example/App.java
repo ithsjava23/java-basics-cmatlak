@@ -1,6 +1,9 @@
 package org.example;
 
+import javax.swing.*;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class App {
@@ -35,7 +38,7 @@ public class App {
                 2. Min, Max och Medel
                 3. Sortera
                 4. Bästa Laddningstid (4h)
-                e. Avsluta     
+                e. Avsluta    
                 """;
         return text ;
     }
@@ -67,7 +70,7 @@ public class App {
         int maxHour = -1;
         int sum = 0;
 
-        for (int hour = 0; hour < 24; hour++){
+        for (int hour = 0; hour < 23; hour++){
             int price = prices[hour];
             if (price < min) {
                 min = price;
@@ -83,14 +86,45 @@ public class App {
         }
         double average = (double) sum / prices.length;
 
-        System.out.print (" Lägsta pris: " + (  String.format("%02d", minHour) + "-"+ (  String.format("%02d", minHour + 1)+ ", " + min + " Öre/kWh\n" )));
-        System.out.print (" Högsta pris:  " + maxHour + " , " + max + "\n");
-        System.out.print (" Medelpris:  " + average + "\n");
+        System.out.print (" Lägsta pris: " + (  String.format("%02d", minHour) + "-"+ (  String.format("%02d", minHour + 1)+ ", " + min + " öre/kWh\n" )));
+        System.out.print (" Högsta pris:  " +(  String.format("%02d", maxHour) + "-"+ (  String.format("%02d", maxHour + 1)+ ", " + max + " öre/kWh\n" )));
+        System.out.print (" Medelpris:  " + average + " öre/Kwh\n");
     }
 
     public static void sortMethod() {
-        // Implementera sortMethod här
+        Integer[] sortedHours = new Integer[24];
+        Integer[] sortedPrices = new Integer[24];
+
+        for (int i = 0; i < 23; i++) {
+            sortedHours[i] = i;
+            sortedPrices[i] = prices[i];
+        }
+
+        // Sortera i fallande ordning baserat på priserna
+        for (int i = 0; i < 23; i++) {
+            for (int j = i + 1; j < 23; j++) {
+                if (sortedPrices[i] < sortedPrices[j]) {
+                    // Byt plats på priserna
+                    int tempPrice = sortedPrices[i];
+                    sortedPrices[i] = sortedPrices[j];
+                    sortedPrices[j] = tempPrice;
+
+                    // Byt plats på tiderna
+                    int tempHour = sortedHours[i];
+                    sortedHours[i] = sortedHours[j];
+                    sortedHours[j] = tempHour;
+                }
+            }
+        }
+
+        System.out.println("Elpriser sorterade i fallande ordning:");
+        for (int i = 0; i < 23; i++) {
+            int hour = sortedHours[i];
+            int price = sortedPrices[i];
+            System.out.println(String.format("%02d-%02d: %d öre/kWh", hour, hour + 1, price));
+        }
     }
+
 
     public static void bestChargingTimeMethod() {
         // Implementera bestChargingTimeMethod här
