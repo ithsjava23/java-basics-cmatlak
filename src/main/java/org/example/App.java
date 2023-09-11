@@ -80,7 +80,7 @@ public class App {
 
     }*/
 
-    public static String minMaxMid() {
+    public static void minMaxMid() {
 
         int min = Integer.MAX_VALUE;
         int max = Integer.MIN_VALUE;
@@ -104,19 +104,13 @@ public class App {
         }
         float average = (float) sum / prices.length;
 
-        StringBuilder minMaxMidText = new StringBuilder();
-        minMaxMidText.append("Min, Max och Medelpris:\n");
-        minMaxMidText.append("-----------------------\n");
-        minMaxMidText.append(String.format("Lägsta pris: %02d-%02d, %d öre/kWh\n", minHour, minHour + 1, min));
-        minMaxMidText.append(String.format("Högsta pris: %02d-%02d, %d öre/kWh\n", maxHour, maxHour + 1, max));
-        minMaxMidText.append(String.format("Medelpris: %.2f öre/kWh\n", average));
 
+        System.out.printf("Lägsta pris: %02d-%02d, %d öre/kWh\n", minHour, minHour + 1, min);
+        System.out.printf("Högsta pris: %02d-%02d, %d öre/kWh\n", maxHour, maxHour + 1, max);
+        System.out.printf("Medelpris: %.2f öre/kWh\n", average);
 
-        return minMaxMidText.toString();
     }
-        // System.out.printf("Lägsta pris: %02d-%02d, %d öre\n", minHour, minHour + 1, min);
-       // System.out.printf("Högsta pris: %02d-%02d, %d öre\n", maxHour, maxHour + 1, max);
-       // System.out.printf("Medelpris: %.2f öre/kWh\n", average);
+
 
 
 
@@ -148,8 +142,10 @@ public class App {
 
         StringBuilder sortedPricesText = new StringBuilder();
         sortedPricesText.append("""
-        Elpriser i fallande ordning:
-        ----------------------------
+        23-24 40 öre
+        01-02 30 öre
+        00-01 20 öre
+        02-03 10 öre
         """);
 
         for (int i = 0; i < 24; i++) {
