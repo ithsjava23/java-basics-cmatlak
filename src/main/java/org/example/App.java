@@ -1,4 +1,5 @@
 package org.example;
+import java.io.PrintStream;
 import java.util.Locale;
 import javax.swing.*;
 import java.util.*;
@@ -9,7 +10,7 @@ public class App {
     public static int[] prices = new int[24];
 
     public static void main(String[] args) {
-        Locale swedishLocale = new Locale("sv","SE");
+        Locale swedishLocale = new Locale("sv", "SE");
         Locale.setDefault(swedishLocale);
 
         Scanner scan = new Scanner(System.in);
@@ -31,11 +32,11 @@ public class App {
             }
         } while (running);
 
-       System.out.println("Programmet har avslutats.");
+        System.out.println("Programmet har avslutats.");
     }
 
     public static String showMenu() {
-       String text = """
+        String text = """
                 Elpriser
                 ========
                 1. Inmatning
@@ -44,13 +45,24 @@ public class App {
                 4. Bästa Laddningstid (4h)
                 e. Avsluta    
                 """;
-        return text ;
+        return text;
     }
 
 
     public static void inputMethod(Scanner scan) {
-
         for (int hour = 0; hour < 24; hour++) {
+            System.out.print("Ange elpriset per timme " + String.format("%02d-%02d", hour, hour + 1) + ": ");
+
+            try {
+                int price = Integer.parseInt(scan.next());
+                prices[hour] = price;
+            } catch (NumberFormatException e) {
+                System.err.print("Felaktigt inmatat värde. Ange en giltig siffra. \n");
+                hour--;
+            }
+        }
+    }
+       /* for (int hour = 0; hour < 24; hour++) {
             System.out.print("Ange elpriset per timme "+ (  String.format("%02d", hour) + "-" + String.format("%02d", hour + 1 ) + ": "));
 
             try {
@@ -66,9 +78,9 @@ public class App {
             }
         }
 
-    }
+    }*/
 
-    public static void minMaxMid() {
+    public static String minMaxMid() {
 
         int min = Integer.MAX_VALUE;
         int max = Integer.MIN_VALUE;
@@ -76,7 +88,7 @@ public class App {
         int maxHour = -1;
         int sum = 0;
 
-        for (int hour = 0; hour < 24; hour++){
+        for (int hour = 0; hour < 24; hour++) {
             int price = prices[hour];
             if (price < min) {
                 min = price;
@@ -88,15 +100,25 @@ public class App {
                 maxHour = hour;
             }
 
-        sum += price;
+            sum += price;
         }
-        double average = (double) sum / prices.length;
+        float average = (float) sum / prices.length;
 
-        System.out.printf(" Lägsta pris: " + String.format("%02d", minHour) + "-"+ (  String.format("%02d", minHour + 1)+ ", " + min + " öre/kWh\n" ));
-        System.out.printf(" Högsta pris: " + String.format("%02d", maxHour) + "-"+ (  String.format("%02d", maxHour + 1)+ ", " + max + " öre/kWh\n" ));
-        System.out.printf(" Medelpris: " + (String.format (average + " öre/Kwh\n")));
+        StringBuilder minMaxMidText = new StringBuilder();
+        minMaxMidText.append("Min, Max och Medelpris:\n");
+        minMaxMidText.append("-----------------------\n");
+        minMaxMidText.append(String.format("Lägsta pris: %02d-%02d, %d öre/kWh\n", minHour, minHour + 1, min));
+        minMaxMidText.append(String.format("Högsta pris: %02d-%02d, %d öre/kWh\n", maxHour, maxHour + 1, max));
+        minMaxMidText.append(String.format("Medelpris: %.2f öre/kWh\n", average));
 
+
+        return minMaxMidText.toString();
     }
+        // System.out.printf("Lägsta pris: %02d-%02d, %d öre\n", minHour, minHour + 1, min);
+       // System.out.printf("Högsta pris: %02d-%02d, %d öre\n", maxHour, maxHour + 1, max);
+       // System.out.printf("Medelpris: %.2f öre/kWh\n", average);
+
+
 
     public static void sortMethod() {
         Integer[] sortedHours = new Integer[24];
@@ -123,15 +145,22 @@ public class App {
             }
         }
 
-        //System.out.print("Elpriser sorterade i fallande ordning: \n");
+
+        StringBuilder sortedPricesText = new StringBuilder();
+        sortedPricesText.append("""
+        Elpriser i fallande ordning:
+        ----------------------------
+        """);
+
         for (int i = 0; i < 24; i++) {
             int hour = sortedHours[i];
             int price = sortedPrices[i];
-
-
-            System.out.printf(String.format( "%02d-%02d %d öre \n", hour, hour + 1, price));
+            sortedPricesText.append(String.format("%02d-%02d %d öre\n", hour, hour + 1, price));
         }
-    }
+
+        System.out.println(sortedPricesText.toString());
+
+        }
 
 
     public static void bestChargingTimeMethod() {
@@ -148,10 +177,10 @@ public class App {
                 cheapestStartHour = startHour;
             }
         }
-        int cheapestEndHour = cheapestStartHour + 3;
+
         double averageValue = (double) cheapestTotalValue / 4;
 
-        System.out.printf (String.format("Påbörja laddning klockan %02d\n", cheapestStartHour + cheapestEndHour + 1));
+        System.out.printf(String.format("Påbörja laddning klockan %02d\n", cheapestStartHour, + 3));
         System.out.printf(String.format("Medelpris 4h: %.1f öre/kWh\n",averageValue));
     }
 }
